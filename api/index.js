@@ -21,3 +21,14 @@ app.listen(PORT, () => {
 
 app.use('/api/user' , userRoutes)/// we are using use to get request 
 app.use('/api/auth' , authRoutes)
+
+
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500 // statusCode comes from the error if there is no statuscode then 500
+    const message = err.message || 'Internet Server Error' /// this is the same as the statuscode if there is no error message then we use the one above
+    res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message
+    });
+}) /// next used when going to the next middleware
