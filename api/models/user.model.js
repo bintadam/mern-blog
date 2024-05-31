@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
             required:true,
         },
     }, 
-    {timestamps:true} /// we want to save 2 things while creating the user the time of creationa nd the time of update
+    {timestamps:true} /// we want to save 2 things while creating the user the time of creation nd the time of update
 )
 
 const User =  mongoose.model('User', userSchema)
