@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema(
             type:String,
             required:true,
         },
+        profilePicture:{
+            type:String,
+            default:"https://media.istockphoto.com/id/1495088043/de/vektor/benutzerprofil-symbol-avatar-oder-personensymbol-profilbild-porträtsymbol-standard.jpg?s=612x612&w=0&k=20&c=mmj93kpr1sFn8VJYI_MUabWE4B86zRD5Uf9fBbTbQqk="
+        }
     }, 
     {timestamps:true} /// we want to save 2 things while creating the user the time of creation nd the time of update
 )
