@@ -1,13 +1,14 @@
-import { Alert, Button, Label, TextInput } from "flowbite-react";
+import { Alert, Button,Spinner, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate} from "react-router-dom";
-import { Spinner } from "flowbite-react";
+import { useDispatch, useSelector } from "react-redux";
+import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
 
 export default function Signin() {
   const [formData, setFormData] = useState({})
-  const [errorMessage, setErrorMassage] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const {loading, error:errorMessage} = useSelector(state => state.user)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.id]:e.target.value.trim() });
@@ -17,13 +18,11 @@ export default function Signin() {
     e.preventDefault()
 
     if(!formData.email || !formData.password){
-      return setErrorMassage('Please fill out all the fields')
+      return dispatch(signInFailure('Please fill out all the fields'))
     }
 
     try{ 
-
-      setLoading(true)
-      setErrorMassage(null)
+      dispatch(signInStart())
       const res = await fetch('/api/auth/signin', {
         method:'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -31,16 +30,15 @@ export default function Signin() {
       });
       const data =  await res.json()
       if(data.success === false){
-        setErrorMassage(data.message)
+        dispatch(signInFailure(data.message))
       }
-      setLoading(false)
       if(res.ok){
+        dispatch(signInSuccess(data))
         navigate('/')
       }
 
     } catch(error){
-      setErrorMassage(error.message)
-      setLoading(false)
+      dispatch(signInFailure(error.message))
     }
 
   }
@@ -86,7 +84,7 @@ export default function Signin() {
             </Button>
           </form>
           <div className="flex gap-2 test-sm mt-5">
-            <span>Don't an account?</span>
+            <span>Dont an account?</span>
             <Link to='/sign-up' className="text-blue-500">
             Sign Up</Link>
           </div>
