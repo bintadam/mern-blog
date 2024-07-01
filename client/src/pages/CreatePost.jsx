@@ -1,5 +1,5 @@
 import { Button, FileInput, Select, TextInput } from "flowbite-react";
-import ReactQuill from 'react-quilljs';
+import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // for snow theme
 
 export default function CreatePost() {
@@ -23,7 +23,7 @@ export default function CreatePost() {
                     </Button>
                 </div>
                 <ReactQuill theme="snow" placeholder="write something..." className="h-72 mb-12"/>
-                <Button type="submit" gradientToDuoTone='purpleToPink'>
+                <Button type="submit" gradientDuoTone='purpleToPink'>
                     Publish
                 </Button>
             </form>
