@@ -1,4 +1,5 @@
 import {useSelector} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {TextInput, Button, Alert, Modal} from 'flowbite-react'
 import { useEffect, useRef, useState } from 'react'
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
@@ -10,7 +11,7 @@ import {updateStart, updateSuccess,updateFailure, deleteUserStart, deleteUserSuc
 import { useDispatch } from 'react-redux'
 
 export default function DashProfile() {
-    const {currentUser, error} = useSelector(state=>state.user)
+    const {currentUser, error, loading} = useSelector(state=>state.user)
     const [imageFile, setImageFile] = useState(null)
     const [imageFileUrl, setImageFileUrl] =useState(null)
     const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null)
@@ -212,7 +213,19 @@ export default function DashProfile() {
                 placeholder='password' 
                 onChange = {handleChange}
                 />
-                <Button type='submit' gradientDuoTone='purpleToBlue' outline>update</Button>
+                <Button type='submit' gradientDuoTone='purpleToBlue' outline disabled={loading || imageFileuploading}>{loading ? 'loading' : 'update'}</Button>
+                {
+                    currentUser.isAdmin && (
+                        <Link to={'/create-post'}>
+                            <Button
+                                type='button'
+                                gradientDuoTone='purpleToBlue'
+                                className='w-full'>
+                                    Create a Post
+                            </Button>
+                        </Link>
+                    )
+                }
             </form>
             <div className='text-red-500 flex justify-between mt-5 '>
                 <span className='cursor-pointer' onClick={() => setShowModal(true)}>Delete Account</span>
