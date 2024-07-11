@@ -1,6 +1,6 @@
 import express from 'express'
 import { verifyToken } from '../utils/verifyUser.js'
-import { create , getposts, deletepost} from '../controllers/post.controllers.js'
+import { create ,getposts, deletepost, updatepost} from '../controllers/post.controllers.js'
 
 const router = express.Router()
 

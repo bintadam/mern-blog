@@ -46,10 +46,11 @@ export default function UpdatePost() {
                     setFormData(data.posts[0])
                 }
             }
+            fetchPost()
         }catch(error){
-            console.log(error)
+            console.log(error.message)
         }
-    })
+    }, [postId])
 
     const handleUploadImage = async()=>{
         try{
@@ -68,6 +69,7 @@ export default function UpdatePost() {
                     const progress = (snapshot.bytesTransferred/ snapshot.totalBytes) * 100
                     setImageUploadProgress(progress.toFixed(0))
                 },
+                // eslint-disable-next-line no-unused-vars
                 (error) => {
                     setImageUploadError('Image upload failed')
                     setImageUploadProgress(null)

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import { set } from 'mongoose';
+// import { set } from 'mongoose';
 
 export default function DashPost() {
   const {currentUser} = useSelector((state) => state.user)
@@ -16,14 +16,13 @@ export default function DashPost() {
   useEffect(() => {
     const fetchPosts = async() => {
       try{
-        const res = await fetch(`/api/post/getpostsuserId=${currentUser._id}`);
+        const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
         const data = await res.json()
         if(res.ok){
           setUserPosts(data.posts)
         }
         if (data.posts.length < 9) {
           setShowMore(false);
-          console.log()
         }
       }catch(error){
         console.log(error.message)
@@ -32,6 +31,7 @@ export default function DashPost() {
     if(currentUser.isAdmin){
       fetchPosts()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser._id])
 
   const handleShowMore = async() => {
@@ -130,7 +130,7 @@ export default function DashPost() {
               </Table.Body>
             ))}
           </Table>
-          {showModal && (
+          {showMore && (
             <button onClick={handleShowMore}
             className='w-full text-teal-500 self-center text-sm py-7'>
               Show more
@@ -140,7 +140,12 @@ export default function DashPost() {
       ):(
         <p>You have no posts yet!</p>
       )}
-      <Modal>
+      <Modal 
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size='md'
+        >
         <Modal.Header/>
         <Modal.Body>
           <div>
