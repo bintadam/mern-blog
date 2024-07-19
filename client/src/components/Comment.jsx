@@ -6,7 +6,7 @@ import { Button, Textarea } from "flowbite-react";
 
 
 // eslint-disable-next-line react/prop-types
-export default function Comment({comment, onLike, onEdit,}) {
+export default function Comment({comment, onLike, onEdit, onDelete}) {
     const [user, setUser] = useState(null)
     const [isEditing, setIsEditing] = useState(false);
     // eslint-disable-next-line react/prop-types
@@ -98,9 +98,22 @@ export default function Comment({comment, onLike, onEdit,}) {
                                 {comment.numberOfLikes > 0 && comment.numberOfLikes + ' ' + (comment.numberOfLikes === 1 ? 'like' : 'likes')}
                             </p>
                             { currentUser && (currentUser._id === comment.userId || currentUser.isAdmin) && (
-                                <button  type='button' onClick={handleEdit}>
-                                    Edit
-                                </button>
+                                <>
+                                    <button  
+                                        type='button' 
+                                        onClick={handleEdit} 
+                                        className='text-gray-400 hover:text-blue-500'
+                                        >
+                                        Edit
+                                    </button>
+                                    <button  
+                                        type='button' 
+                                        onClick={() => onDelete(comment._id)}
+                                        className='text-gray-400 hover:text-red-500'
+                                        >
+                                        Delete
+                                    </button>
+                                </>
                             )}
                         </div>
                     </>
