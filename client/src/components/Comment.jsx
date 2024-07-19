@@ -1,19 +1,22 @@
-import { useEffect, useState } from "react";
 import moment from 'moment';
+import { useEffect, useState } from "react";
 import {FaThumbsUp} from 'react-icons/fa';
 import { useSelector } from "react-redux";
 import { Button, Textarea } from "flowbite-react";
 
 
+// eslint-disable-next-line react/prop-types
 export default function Comment({comment, onLike, onEdit,}) {
     const [user, setUser] = useState(null)
     const [isEditing, setIsEditing] = useState(false);
+    // eslint-disable-next-line react/prop-types
     const [editedContent, setEditedContent] = useState(comment.content);
     const {currentUser} = useSelector((state)=>state.user)
     
     useEffect(()=>{
         const getUser = async () => {
             try{
+                // eslint-disable-next-line react/prop-types
                 const res = await fetch(`/api/user/${comment.userId}`)
                 const data = await res.json();
                 if(res.ok){
@@ -28,11 +31,13 @@ export default function Comment({comment, onLike, onEdit,}) {
 
     const handleEdit = async() => {
         setIsEditing(true)
+        // eslint-disable-next-line react/prop-types
         setEditedContent(comment.content);
     }
 
     const handleSave = async () => {
         try {
+          // eslint-disable-next-line react/prop-types
           const res = await fetch(`/api/comment/editComment/${comment._id}`, {
             method: 'PUT',
             headers: {
